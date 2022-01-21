@@ -35,11 +35,13 @@ class TestGameController(BaseTestCase):
         uploads a treasure within a game
         """
         treasure = Treasure()
+        headers = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game/{gameId}/treasures'.format(gameId=789),
             method='POST',
             data=json.dumps(treasure),
-            content_type='application/json')
+            content_type='application/json',
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

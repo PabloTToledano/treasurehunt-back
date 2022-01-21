@@ -49,12 +49,11 @@ class TestUserController(BaseTestCase):
 
         Get user by user name
         """
-        userId = User()
+        headers = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/user',
             method='GET',
-            data=json.dumps(userId),
-            content_type='application/json')
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

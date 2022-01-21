@@ -23,13 +23,15 @@ def add_game(userToken, body):  # noqa: E501
     return 'do some magic!'
 
 
-def create_treasure(gameId, treasure):  # noqa: E501
+def create_treasure(gameId, userToken, treasure):  # noqa: E501
     """uploads a treasure within a game
 
      # noqa: E501
 
     :param gameId: ID of game to update
     :type gameId: int
+    :param userToken: 
+    :type userToken: str
     :param treasure: The treasure to be uploaded
     :type treasure: dict | bytes
 

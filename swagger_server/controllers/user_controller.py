@@ -39,16 +39,14 @@ def delete_user(userToken, userId):  # noqa: E501
     return 'do some magic!'
 
 
-def get_user_by_name(userId):  # noqa: E501
+def get_user_by_name(userToken):  # noqa: E501
     """Get user by user name
 
      # noqa: E501
 
-    :param userId: The user
-    :type userId: dict | bytes
+    :param userToken: 
+    :type userToken: str
 
     :rtype: User
     """
-    if connexion.request.is_json:
-        userId = User.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

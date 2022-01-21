@@ -1,3 +1,4 @@
+---
 swagger: "2.0"
 info:
   description: "This is a tresure hunt server"
@@ -20,7 +21,7 @@ paths:
       - "game"
       summary: "Get games"
       description: "Returns all games"
-      operationId: "getGames"
+      operationId: "get_games"
       produces:
       - "application/json"
       parameters:
@@ -35,16 +36,17 @@ paths:
             $ref: "#/definitions/Game"
         "400":
           description: "Invalid"
-        "404":
-          description: "Game not found"
         "403":
           description: "Forbidden access"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
     post:
       tags:
       - "game"
       summary: "Add a game"
       description: ""
-      operationId: "addGame"
+      operationId: "add_game"
       consumes:
       - "application/json"
       produces:
@@ -61,16 +63,17 @@ paths:
         schema:
           $ref: "#/definitions/Game"
       responses:
-        "405":
-          description: "Invalid input"
         "403":
           description: "Forbidden access"
+        "405":
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
     put:
       tags:
       - "game"
       summary: "Update an existing game"
       description: ""
-      operationId: "updateGame"
+      operationId: "update_game"
       consumes:
       - "application/json"
       produces:
@@ -85,19 +88,20 @@ paths:
       responses:
         "400":
           description: "Invalid ID supplied"
+        "403":
+          description: "Forbidden access"
         "404":
           description: "Game not found"
         "405":
           description: "Validation exception"
-        "403":
-          description: "Forbidden access"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /game/findByActive:
     get:
       tags:
       - "game"
       summary: "Finds Games by active status"
       description: ""
-      operationId: "findGamesByActive"
+      operationId: "find_games_by_active"
       produces:
       - "application/json"
       parameters:
@@ -121,13 +125,14 @@ paths:
           description: "Invalid active value"
         "403":
           description: "Forbidden access"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /game/{gameId}:
     get:
       tags:
       - "game"
       summary: "Find game by ID"
       description: "Returns a single game"
-      operationId: "getGameById"
+      operationId: "get_game_by_id"
       produces:
       - "application/json"
       parameters:
@@ -148,16 +153,17 @@ paths:
             $ref: "#/definitions/Game"
         "400":
           description: "Invalid ID supplied"
-        "404":
-          description: "Game not found"
         "403":
           description: "Forbidden access"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
     delete:
       tags:
       - "game"
       summary: "Deletes a game"
       description: ""
-      operationId: "deleteGame"
+      operationId: "delete_game"
       produces:
       - "application/json"
       parameters:
@@ -174,17 +180,18 @@ paths:
       responses:
         "400":
           description: "Invalid ID supplied"
-        "404":
-          description: "Game not found"
         "403":
           description: "Forbidden access"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /game/{gameId}/treasures:
     post:
       tags:
       - "game"
       summary: "uploads a treasure within a game"
       description: ""
-      operationId: "createTreasure"
+      operationId: "create_treasure"
       produces:
       - "application/json"
       parameters:
@@ -198,7 +205,7 @@ paths:
         in: "header"
         required: true
         type: "string"
-      - in: "body" 
+      - in: "body"
         name: "treasure"
         description: "The treasure to be uploaded"
         required: true
@@ -209,13 +216,14 @@ paths:
           description: "successful operation"
         "403":
           description: "Forbidden access"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /user:
     get:
       tags:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "getUserByName"
+      operationId: "get_user_by_name"
       produces:
       - "application/json"
       parameters:
@@ -232,12 +240,13 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
     post:
       tags:
       - "user"
       summary: "Create user"
       description: "This can only be done by the logged in user."
-      operationId: "createUser"
+      operationId: "create_user"
       produces:
       - "application/json"
       parameters:
@@ -252,16 +261,17 @@ paths:
         schema:
           $ref: "#/definitions/User"
       responses:
-        default:
-          description: "successful operation"
         "403":
           description: "Forbidden access"
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
     delete:
       tags:
       - "user"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
+      operationId: "delete_user"
       produces:
       - "application/json"
       parameters:
@@ -269,7 +279,7 @@ paths:
         in: "header"
         required: true
         type: "string"
-      - in: "body" 
+      - in: "body"
         name: "userId"
         description: "The name that needs to be deleted"
         required: true
@@ -278,10 +288,11 @@ paths:
       responses:
         "400":
           description: "Invalid userId supplied"
-        "404":
-          description: "User not found"
         "403":
           description: "Forbidden access"
+        "404":
+          description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
 definitions:
   Area:
     type: "object"
@@ -304,6 +315,13 @@ definitions:
         maxItems: 2
     xml:
       name: "area"
+    example:
+      centerCoordinates:
+      - 1.46581298050294517310021547018550336360931396484375
+      - 1.46581298050294517310021547018550336360931396484375
+      dimensions:
+      - 5.962133916683182377482808078639209270477294921875
+      - 5.962133916683182377482808078639209270477294921875
   Treasure:
     type: "object"
     properties:
@@ -318,9 +336,9 @@ definitions:
       hint:
         type: "object"
         properties:
-          imageUrl: 
+          imageUrl:
             type: "string"
-          text: 
+          text:
             type: "string"
       found:
         type: "array"
@@ -334,11 +352,19 @@ definitions:
               type: "string"
     xml:
       name: "treasure"
+    example:
+      found:
+      - "{}"
+      - "{}"
+      hint: "{}"
+      location:
+      - 5.63737665663332876420099637471139430999755859375
+      - 5.63737665663332876420099637471139430999755859375
   User:
     type: "object"
     required:
-    - "userId"
     - "rol"
+    - "userId"
     properties:
       userId:
         type: "integer"
@@ -355,11 +381,16 @@ definitions:
         - "jesucristo"
     xml:
       name: "User"
+    example:
+      userId: 0
+      email: "email"
+      rol: "user"
+      username: "username"
   Game:
     type: "object"
     required:
-    - "gameId"
     - "area"
+    - "gameId"
     - "treasures"
     properties:
       gameId:
@@ -385,3 +416,31 @@ definitions:
         description: "game status"
     xml:
       name: "Game"
+    example:
+      gameId: 0
+      area:
+        centerCoordinates:
+        - 1.46581298050294517310021547018550336360931396484375
+        - 1.46581298050294517310021547018550336360931396484375
+        dimensions:
+        - 5.962133916683182377482808078639209270477294921875
+        - 5.962133916683182377482808078639209270477294921875
+      organizerId: 6.02745618307040320615897144307382404804229736328125
+      name: "name"
+      description: "description"
+      active: true
+      treasures:
+      - found:
+        - "{}"
+        - "{}"
+        hint: "{}"
+        location:
+        - 5.63737665663332876420099637471139430999755859375
+        - 5.63737665663332876420099637471139430999755859375
+      - found:
+        - "{}"
+        - "{}"
+        hint: "{}"
+        location:
+        - 5.63737665663332876420099637471139430999755859375
+        - 5.63737665663332876420099637471139430999755859375
