@@ -1,0 +1,9 @@
+connexion
+python_dateutil
+setuptools
+gunicorn 
+Flask
+pymongo
+dnspython
+python-dotenv
+werkzeug

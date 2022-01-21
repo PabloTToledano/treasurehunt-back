@@ -1,0 +1,429 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a tresure hunt server"
+  version: "1.0.0"
+  title: "Treasure Hunt"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "algo.heroku.com"
+basePath: "/v1"
+tags:
+- name: "games"
+  description: "Everything about games"
+- name: "user"
+  description: "Operations about user"
+schemes:
+- "https"
+- "http"
+paths:
+  /game:
+    get:
+      tags:
+      - "game"
+      summary: "Get games"
+      description: "Returns all games"
+      operationId: "get_games"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Game"
+        "400":
+          description: "Invalid"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+    post:
+      tags:
+      - "game"
+      summary: "Add a game"
+      description: ""
+      operationId: "add_game"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Game that needs to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Game"
+      responses:
+        "405":
+          description: "Invalid input"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+    put:
+      tags:
+      - "game"
+      summary: "Update an existing game"
+      description: ""
+      operationId: "update_game"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Game that need to be put in the treasure hunt game"
+        required: true
+        schema:
+          $ref: "#/definitions/Game"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Game not found"
+        "405":
+          description: "Validation exception"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /game/findByActive:
+    get:
+      tags:
+      - "game"
+      summary: "Finds Games by active status"
+      description: ""
+      operationId: "find_games_by_active"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "active"
+        in: "query"
+        description: "Active value that need to be considered for filter"
+        required: true
+        type: "boolean"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Game"
+        "400":
+          description: "Invalid active value"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /game/{gameId}:
+    get:
+      tags:
+      - "game"
+      summary: "Find game by ID"
+      description: "Returns a single game"
+      operationId: "get_game_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "gameId"
+        in: "path"
+        description: "ID of game to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Game"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+    delete:
+      tags:
+      - "game"
+      summary: "Deletes a game"
+      description: ""
+      operationId: "delete_game"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "gameId"
+        in: "path"
+        description: "Game id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /game/{gameId}/treasures:
+    post:
+      tags:
+      - "game"
+      summary: "uploads a treasure within a game"
+      description: ""
+      operationId: "create_treasure"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "gameId"
+        in: "path"
+        description: "ID of game to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "treasure"
+        description: "The treasure to be uploaded"
+        required: true
+        schema:
+          $ref: "#/definitions/Treasure"
+      responses:
+        "200":
+          description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /user:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by user name"
+      description: ""
+      operationId: "get_user_by_name"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "userId"
+        description: "The user"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "create_user"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: "delete_user"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "userId"
+        description: "The name that needs to be deleted"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "400":
+          description: "Invalid userId supplied"
+        "404":
+          description: "User not found"
+      x-swagger-router-controller: "swagger_server.controllers.user_controller"
+definitions:
+  Area:
+    type: "object"
+    properties:
+      centerCoordinates:
+        type: "array"
+        xml:
+          name: "centerCoordinates"
+          wrapped: true
+        items:
+          type: "number"
+        maxItems: 2
+      dimensions:
+        type: "array"
+        xml:
+          name: "rectangleDimensions"
+          wrapped: true
+        items:
+          type: "number"
+        maxItems: 2
+    xml:
+      name: "area"
+    example:
+      centerCoordinates:
+      - 1.46581298050294517310021547018550336360931396484375
+      - 1.46581298050294517310021547018550336360931396484375
+      dimensions:
+      - 5.962133916683182377482808078639209270477294921875
+      - 5.962133916683182377482808078639209270477294921875
+  Treasure:
+    type: "object"
+    properties:
+      location:
+        type: "array"
+        xml:
+          name: "locationCoordinates"
+          wrapped: true
+        items:
+          type: "number"
+        maxItems: 2
+      hint:
+        type: "object"
+        properties:
+          imageUrl:
+            type: "string"
+          text:
+            type: "string"
+      found:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            userId:
+              type: "integer"
+              format: "int64"
+            proof:
+              type: "string"
+    xml:
+      name: "treasure"
+    example:
+      found:
+      - "{}"
+      - "{}"
+      hint: "{}"
+      location:
+      - 5.63737665663332876420099637471139430999755859375
+      - 5.63737665663332876420099637471139430999755859375
+  User:
+    type: "object"
+    required:
+    - "rol"
+    - "userId"
+    properties:
+      userId:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      email:
+        type: "string"
+      rol:
+        type: "string"
+        enum:
+        - "user"
+        - "admin"
+        - "jesucristo"
+    xml:
+      name: "User"
+    example:
+      userId: 0
+      email: "email"
+      rol: "user"
+      username: "username"
+  Game:
+    type: "object"
+    required:
+    - "area"
+    - "gameId"
+    - "treasures"
+    properties:
+      gameId:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      organizerId:
+        type: "number"
+      area:
+        $ref: "#/definitions/Area"
+      treasures:
+        type: "array"
+        xml:
+          name: "treasures"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Treasure"
+      active:
+        type: "boolean"
+        description: "game status"
+    xml:
+      name: "Game"
+    example:
+      gameId: 0
+      area:
+        centerCoordinates:
+        - 1.46581298050294517310021547018550336360931396484375
+        - 1.46581298050294517310021547018550336360931396484375
+        dimensions:
+        - 5.962133916683182377482808078639209270477294921875
+        - 5.962133916683182377482808078639209270477294921875
+      organizerId: 6.02745618307040320615897144307382404804229736328125
+      name: "name"
+      description: "description"
+      active: true
+      treasures:
+      - found:
+        - "{}"
+        - "{}"
+        hint: "{}"
+        location:
+        - 5.63737665663332876420099637471139430999755859375
+        - 5.63737665663332876420099637471139430999755859375
+      - found:
+        - "{}"
+        - "{}"
+        hint: "{}"
+        location:
+        - 5.63737665663332876420099637471139430999755859375
+        - 5.63737665663332876420099637471139430999755859375
