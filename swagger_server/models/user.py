@@ -15,11 +15,11 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, username: str=None, email: str=None, rol: str=None):  # noqa: E501
+    def __init__(self, id: str=None, username: str=None, email: str=None, rol: str=None):  # noqa: E501
         """User - a model defined in Swagger
 
         :param id: The id of this User.  # noqa: E501
-        :type id: int
+        :type id: str
         :param username: The username of this User.  # noqa: E501
         :type username: str
         :param email: The email of this User.  # noqa: E501
@@ -28,7 +28,7 @@ class User(Model):
         :type rol: str
         """
         self.swagger_types = {
-            'id': int,
+            'id': str,
             'username': str,
             'email': str,
             'rol': str
@@ -58,22 +58,22 @@ class User(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> str:
         """Gets the id of this User.
 
 
         :return: The id of this User.
-        :rtype: int
+        :rtype: str
         """
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: str):
         """Sets the id of this User.
 
 
         :param id: The id of this User.
-        :type id: int
+        :type id: str
         """
 
         self._id = id

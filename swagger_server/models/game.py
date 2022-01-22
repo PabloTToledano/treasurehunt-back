@@ -17,11 +17,11 @@ class Game(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, name: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
+    def __init__(self, id: str=None, name: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
         """Game - a model defined in Swagger
 
         :param id: The id of this Game.  # noqa: E501
-        :type id: int
+        :type id: str
         :param name: The name of this Game.  # noqa: E501
         :type name: str
         :param description: The description of this Game.  # noqa: E501
@@ -36,7 +36,7 @@ class Game(Model):
         :type active: bool
         """
         self.swagger_types = {
-            'id': int,
+            'id': str,
             'name': str,
             'description': str,
             'organizer_id': float,
@@ -75,22 +75,22 @@ class Game(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> str:
         """Gets the id of this Game.
 
 
         :return: The id of this Game.
-        :rtype: int
+        :rtype: str
         """
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: str):
         """Sets the id of this Game.
 
 
         :param id: The id of this Game.
-        :type id: int
+        :type id: str
         """
 
         self._id = id
