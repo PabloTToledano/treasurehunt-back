@@ -37,7 +37,7 @@ class TestGameController(BaseTestCase):
         treasure = Treasure()
         query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
-            '/v1/game/{gameId}/treasures'.format(gameId=789),
+            '/v1/game/{_id}/treasures'.format(_id=789),
             method='POST',
             data=json.dumps(treasure),
             content_type='application/json',
@@ -52,7 +52,7 @@ class TestGameController(BaseTestCase):
         """
         query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
-            '/v1/game/{gameId}'.format(gameId=789),
+            '/v1/game/{_id}'.format(_id=789),
             method='DELETE',
             query_string=query_string)
         self.assert200(response,
@@ -79,7 +79,7 @@ class TestGameController(BaseTestCase):
         """
         query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
-            '/v1/game/{gameId}'.format(gameId=789),
+            '/v1/game/{_id}'.format(_id=789),
             method='GET',
             query_string=query_string)
         self.assert200(response,

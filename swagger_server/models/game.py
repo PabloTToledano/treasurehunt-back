@@ -17,11 +17,11 @@ class Game(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, game_id: int=None, name: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
+    def __init__(self, id: int=None, name: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
         """Game - a model defined in Swagger
 
-        :param game_id: The game_id of this Game.  # noqa: E501
-        :type game_id: int
+        :param id: The id of this Game.  # noqa: E501
+        :type id: int
         :param name: The name of this Game.  # noqa: E501
         :type name: str
         :param description: The description of this Game.  # noqa: E501
@@ -36,7 +36,7 @@ class Game(Model):
         :type active: bool
         """
         self.swagger_types = {
-            'game_id': int,
+            'id': int,
             'name': str,
             'description': str,
             'organizer_id': float,
@@ -46,7 +46,7 @@ class Game(Model):
         }
 
         self.attribute_map = {
-            'game_id': 'gameId',
+            'id': '_id',
             'name': 'name',
             'description': 'description',
             'organizer_id': 'organizerId',
@@ -55,7 +55,7 @@ class Game(Model):
             'active': 'active'
         }
 
-        self._game_id = game_id
+        self._id = id
         self._name = name
         self._description = description
         self._organizer_id = organizer_id
@@ -75,27 +75,25 @@ class Game(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def game_id(self) -> int:
-        """Gets the game_id of this Game.
+    def id(self) -> int:
+        """Gets the id of this Game.
 
 
-        :return: The game_id of this Game.
+        :return: The id of this Game.
         :rtype: int
         """
-        return self._game_id
+        return self._id
 
-    @game_id.setter
-    def game_id(self, game_id: int):
-        """Sets the game_id of this Game.
+    @id.setter
+    def id(self, id: int):
+        """Sets the id of this Game.
 
 
-        :param game_id: The game_id of this Game.
-        :type game_id: int
+        :param id: The id of this Game.
+        :type id: int
         """
-        if game_id is None:
-            raise ValueError("Invalid value for `game_id`, must not be `None`")  # noqa: E501
 
-        self._game_id = game_id
+        self._id = id
 
     @property
     def name(self) -> str:

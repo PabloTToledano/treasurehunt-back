@@ -15,11 +15,11 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, user_id: int=None, username: str=None, email: str=None, rol: str=None):  # noqa: E501
+    def __init__(self, id: int=None, username: str=None, email: str=None, rol: str=None):  # noqa: E501
         """User - a model defined in Swagger
 
-        :param user_id: The user_id of this User.  # noqa: E501
-        :type user_id: int
+        :param id: The id of this User.  # noqa: E501
+        :type id: int
         :param username: The username of this User.  # noqa: E501
         :type username: str
         :param email: The email of this User.  # noqa: E501
@@ -28,20 +28,20 @@ class User(Model):
         :type rol: str
         """
         self.swagger_types = {
-            'user_id': int,
+            'id': int,
             'username': str,
             'email': str,
             'rol': str
         }
 
         self.attribute_map = {
-            'user_id': 'userId',
+            'id': '_id',
             'username': 'username',
             'email': 'email',
             'rol': 'rol'
         }
 
-        self._user_id = user_id
+        self._id = id
         self._username = username
         self._email = email
         self._rol = rol
@@ -58,27 +58,25 @@ class User(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def user_id(self) -> int:
-        """Gets the user_id of this User.
+    def id(self) -> int:
+        """Gets the id of this User.
 
 
-        :return: The user_id of this User.
+        :return: The id of this User.
         :rtype: int
         """
-        return self._user_id
+        return self._id
 
-    @user_id.setter
-    def user_id(self, user_id: int):
-        """Sets the user_id of this User.
+    @id.setter
+    def id(self, id: int):
+        """Sets the id of this User.
 
 
-        :param user_id: The user_id of this User.
-        :type user_id: int
+        :param id: The id of this User.
+        :type id: int
         """
-        if user_id is None:
-            raise ValueError("Invalid value for `user_id`, must not be `None`")  # noqa: E501
 
-        self._user_id = user_id
+        self._id = id
 
     @property
     def username(self) -> str:
