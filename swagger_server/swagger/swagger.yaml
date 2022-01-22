@@ -26,7 +26,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       responses:
@@ -53,7 +53,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - in: "body"
@@ -106,7 +106,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - name: "active"
@@ -137,7 +137,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - name: "gameId"
@@ -168,7 +168,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - name: "gameId"
@@ -202,7 +202,7 @@ paths:
         type: "integer"
         format: "int64"
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - in: "body"
@@ -223,12 +223,12 @@ paths:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "get_user_by_name"
+      operationId: "get_user_by_token"
       produces:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       responses:
@@ -251,7 +251,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - in: "body"
@@ -276,7 +276,7 @@ paths:
       - "application/json"
       parameters:
       - name: "userToken"
-        in: "header"
+        in: "query"
         required: true
         type: "string"
       - in: "body"

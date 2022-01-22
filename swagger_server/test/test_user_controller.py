@@ -18,13 +18,13 @@ class TestUserController(BaseTestCase):
         Create user
         """
         body = User()
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/user',
             method='POST',
             data=json.dumps(body),
             content_type='application/json',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -34,26 +34,26 @@ class TestUserController(BaseTestCase):
         Delete user
         """
         userId = User()
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/user',
             method='DELETE',
             data=json.dumps(userId),
             content_type='application/json',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_user_by_name(self):
-        """Test case for get_user_by_name
+    def test_get_user_by_token(self):
+        """Test case for get_user_by_token
 
         Get user by user name
         """
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/user',
             method='GET',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

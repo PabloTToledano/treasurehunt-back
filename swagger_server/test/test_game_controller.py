@@ -19,13 +19,13 @@ class TestGameController(BaseTestCase):
         Add a game
         """
         body = Game()
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game',
             method='POST',
             data=json.dumps(body),
-            headers=headers,
-            content_type='application/json')
+            content_type='application/json',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -35,13 +35,13 @@ class TestGameController(BaseTestCase):
         uploads a treasure within a game
         """
         treasure = Treasure()
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game/{gameId}/treasures'.format(gameId=789),
             method='POST',
             data=json.dumps(treasure),
             content_type='application/json',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -50,11 +50,11 @@ class TestGameController(BaseTestCase):
 
         Deletes a game
         """
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game/{gameId}'.format(gameId=789),
             method='DELETE',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -63,12 +63,11 @@ class TestGameController(BaseTestCase):
 
         Finds Games by active status
         """
-        query_string = [('active', true)]
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example'),
+                        ('active', true)]
         response = self.client.open(
             '/v1/game/findByActive',
             method='GET',
-            headers=headers,
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -78,11 +77,11 @@ class TestGameController(BaseTestCase):
 
         Find game by ID
         """
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game/{gameId}'.format(gameId=789),
             method='GET',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -91,11 +90,11 @@ class TestGameController(BaseTestCase):
 
         Get games
         """
-        headers = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game',
             method='GET',
-            headers=headers)
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

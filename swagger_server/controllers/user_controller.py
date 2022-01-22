@@ -39,7 +39,7 @@ def delete_user(userToken, userId):  # noqa: E501
     return 'do some magic!'
 
 
-def get_user_by_name(userToken):  # noqa: E501
+def get_user_by_token(userToken):  # noqa: E501
     """Get user by user name
 
      # noqa: E501
