@@ -30,7 +30,7 @@ def add_game(userToken, body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Game.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return body
 
 
 def create_treasure(gameId, userToken, treasure):  # noqa: E501
@@ -49,7 +49,7 @@ def create_treasure(gameId, userToken, treasure):  # noqa: E501
     """
     if connexion.request.is_json:
         treasure = Treasure.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return treasure
 
 
 def delete_game(userToken, gameId):  # noqa: E501
@@ -64,7 +64,7 @@ def delete_game(userToken, gameId):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    return gameId
 
 
 def find_games_by_active(userToken, active):  # noqa: E501
@@ -79,7 +79,7 @@ def find_games_by_active(userToken, active):  # noqa: E501
 
     :rtype: List[Game]
     """
-    return json_util.dumps(list(gamesDB.find({'active': active},{'treasures' : 0})))
+    return json_util.dumps(list(gamesDB.find({'active': active},{'treasures.location' : 0})))
 
 
 def get_game_by_id(userToken, gameId):  # noqa: E501
@@ -94,7 +94,7 @@ def get_game_by_id(userToken, gameId):  # noqa: E501
 
     :rtype: Game
     """
-    return 'do some magic!'
+    return json_util.dumps(list(gamesDB.find({'_id': ObjectId(gameId)},{'treasures.location' : 0})))
 
 
 def get_games(userToken):  # noqa: E501
@@ -107,7 +107,7 @@ def get_games(userToken):  # noqa: E501
 
     :rtype: Game
     """
-    return json_util.dumps(list(gamesDB.find({},{'treasures' : 0})))
+    return json_util.dumps(list(gamesDB.find({},{'treasures.location' : 0})))
 
 
 def update_game(body):  # noqa: E501
@@ -122,4 +122,4 @@ def update_game(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Game.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return body
