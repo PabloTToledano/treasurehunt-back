@@ -79,7 +79,7 @@ def find_games_by_active(userToken, active):  # noqa: E501
 
     :rtype: List[Game]
     """
-    return 'do some magic!'
+    return json_util.dumps(list(gamesDB.find({'active': active},{'treasures' : 0})))
 
 
 def get_game_by_id(userToken, gameId):  # noqa: E501
@@ -107,7 +107,7 @@ def get_games(userToken):  # noqa: E501
 
     :rtype: Game
     """
-    return json_util.dumps(list(gamesDB.find({})))
+    return json_util.dumps(list(gamesDB.find({},{'treasures' : 0})))
 
 
 def update_game(body):  # noqa: E501
