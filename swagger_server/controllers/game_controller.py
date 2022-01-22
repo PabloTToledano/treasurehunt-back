@@ -4,6 +4,7 @@ import six
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server import util
+from swagger_server.controllers.token_controller import verifyToken
 
 
 def add_game(userToken, body):  # noqa: E501
