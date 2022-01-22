@@ -1,10 +1,19 @@
 import connexion
+import pymongo
+import json
+import os
 import six
 
+from bson import json_util, ObjectId
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.token_controller import verifyToken
+
+uri = os.environ['MONGODB_URI'] 
+client = pymongo.MongoClient(uri)
+db = client.get_default_database()
+gamesDB = db.games
 
 
 def add_game(userToken, body):  # noqa: E501
@@ -98,7 +107,7 @@ def get_games(userToken):  # noqa: E501
 
     :rtype: Game
     """
-    return 'do some magic!'
+    return json_util.dumps(list(gamesDB.find({})))
 
 
 def update_game(body):  # noqa: E501

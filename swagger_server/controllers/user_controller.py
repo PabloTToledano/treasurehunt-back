@@ -1,9 +1,15 @@
 import connexion
+import pymongo
+import os
 import six
 
 from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
+uri = os.environ['MONGODB_URI'] 
+client = pymongo.MongoClient(uri)
+db = client.get_default_database()
+usersDB = db.users 
 
 def create_user(userToken, body):  # noqa: E501
     """Create user
