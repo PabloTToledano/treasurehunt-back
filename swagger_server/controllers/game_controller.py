@@ -8,7 +8,7 @@ from bson import json_util, ObjectId
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server import util
-from swagger_server.controllers.token_controller import verifyToken
+from swagger_server.controllers.token_controller import verifyToken,getUser
 
 uri = os.environ['MONGODB_URI'] 
 client = pymongo.MongoClient(uri)
@@ -28,6 +28,9 @@ def add_game(userToken, body):  # noqa: E501
 
     :rtype: None
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
     if connexion.request.is_json:
         body = Game.from_dict(connexion.request.get_json())  # noqa: E501
     return body
@@ -47,6 +50,10 @@ def create_treasure(gameId, userToken, treasure):  # noqa: E501
 
     :rtype: None
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     if connexion.request.is_json:
         treasure = Treasure.from_dict(connexion.request.get_json())  # noqa: E501
     return treasure
@@ -64,6 +71,10 @@ def delete_game(userToken, gameId):  # noqa: E501
 
     :rtype: None
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     return gameId
 
 
@@ -79,6 +90,10 @@ def find_games_by_active(userToken, active):  # noqa: E501
 
     :rtype: List[Game]
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     return json_util.dumps(list(gamesDB.find({'active': active},{'treasures.location' : 0})))
 
 
@@ -94,6 +109,10 @@ def get_game_by_id(userToken, gameId):  # noqa: E501
 
     :rtype: Game
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     return json_util.dumps(list(gamesDB.find({'_id': ObjectId(gameId)},{'treasures.location' : 0})))
 
 
@@ -107,10 +126,14 @@ def get_games(userToken):  # noqa: E501
 
     :rtype: Game
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     return json_util.dumps(list(gamesDB.find({},{'treasures.location' : 0})))
 
 
-def update_game(body):  # noqa: E501
+def update_game(userToken, body):  # noqa: E501
     """Update an existing game
 
      # noqa: E501
@@ -120,6 +143,10 @@ def update_game(body):  # noqa: E501
 
     :rtype: None
     """
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     if connexion.request.is_json:
         body = Game.from_dict(connexion.request.get_json())  # noqa: E501
     return body

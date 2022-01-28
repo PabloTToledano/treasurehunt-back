@@ -79,6 +79,10 @@ paths:
       produces:
       - "application/json"
       parameters:
+      - name: "userToken"
+        in: "query"
+        required: true
+        type: "string"
       - in: "body"
         name: "body"
         description: "Game that need to be put in the treasure hunt game"

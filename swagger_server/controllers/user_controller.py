@@ -61,6 +61,7 @@ def get_user_by_token(userToken):  # noqa: E501
     user = getUser(userToken)
     if user is None:
         return 'User not valid' ,404
+        
     # verify if user already exists
     try:
         userFromDB = usersDB.find({'email': user.email})[0]
