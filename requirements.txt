@@ -10,3 +10,4 @@ python-dotenv
 werkzeug
 google-api-python-client
 python-bsonjs
+flask_cors
