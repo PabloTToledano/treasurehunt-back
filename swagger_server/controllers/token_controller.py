@@ -4,7 +4,8 @@ from google.auth.transport import requests
 def verifyToken(userToken):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        idinfo = id_token.verify_oauth2_token(userToken, requests.Request(), CLIENT_ID)
+
+        idinfo = id_token.verify_oauth2_token(userToken, requests.Request(), os.environ['CLIENT_ID'])
 
         # Or, if multiple clients access the backend server:
         # idinfo = id_token.verify_oauth2_token(token, requests.Request())
