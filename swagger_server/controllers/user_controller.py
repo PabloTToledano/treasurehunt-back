@@ -3,8 +3,10 @@ import pymongo
 import os
 import six
 
+from bson import json_util, ObjectId
 from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
+from swagger_server.controllers.token_controller import verifyToken,getUser
 
 uri = os.environ['MONGODB_URI'] 
 client = pymongo.MongoClient(uri)
@@ -55,4 +57,17 @@ def get_user_by_token(userToken):  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+    # verify if user already exists
+    try:
+        userFromDB = usersDB.find({'email': user.email})[0]
+        user.rol = userFromDB['rol']
+    except IndexError:
+        # user doesn't exist
+        user.rol = 'user'
+        userjson = {"_id": user.id, "username": user.username, "email": user.email, "rol": user.rol}
+        usersDB.insert_one(userjson)
+    return user

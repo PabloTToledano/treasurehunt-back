@@ -1,23 +1,27 @@
+import os
+
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from swagger_server.models.user import User 
 
 def verifyToken(userToken):
     try:
-        # Specify the CLIENT_ID of the app that accesses the backend:
+        idinfo = id_token.verify_oauth2_token(userToken, requests.Request(), os.environ['CLIENT_ID'])
+        # ID token is valid. Get the user's Google Account ID from the decoded token.
+        return True
+    except ValueError:
+        # Invalid token
+        return False
+
+def getUser(userToken):
+    try:
 
         idinfo = id_token.verify_oauth2_token(userToken, requests.Request(), os.environ['CLIENT_ID'])
 
-        # Or, if multiple clients access the backend server:
-        # idinfo = id_token.verify_oauth2_token(token, requests.Request())
-        # if idinfo['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
-        #     raise ValueError('Could not verify audience.')
-
-        # If auth request is from a G Suite domain:
-        # if idinfo['hd'] != GSUITE_DOMAIN_NAME:
-        #     raise ValueError('Wrong hosted domain.')
-
         # ID token is valid. Get the user's Google Account ID from the decoded token.
-        userid = idinfo['sub']
+        user = User(id = idinfo['sub'],username=idinfo['name'],email=idinfo['email'])
+        return user
     except ValueError:
         # Invalid token
-        pass
+        return None
+        
