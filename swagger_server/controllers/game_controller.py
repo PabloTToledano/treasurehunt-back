@@ -113,6 +113,8 @@ def get_game_by_id(userToken, gameId):  # noqa: E501
     if user is None:
         return 'User not valid' ,404
 
+    #WIP check if the user is the ower of this game so that it gets the full object
+
     return json_util.dumps(list(gamesDB.find({'_id': ObjectId(gameId)},{'treasures.location' : 0})))
 
 
