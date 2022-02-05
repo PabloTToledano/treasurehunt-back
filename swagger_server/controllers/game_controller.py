@@ -63,8 +63,23 @@ def delete_games(userToken, id=None):  # noqa: E501
     user = getUser(userToken)
     if user is None:
         return 'User not valid' ,404
+    if id is None:
+        return 'id not valid' ,404
+    userFromDB = usersDB.find({'email': user.email})[0]
+    games = list(gamesDB.find({'_id': ObjectId(id)}))
+    if len(games) == 0:
+        return 'Game not found', 404
 
-    return 'do some magic!'
+    games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+    game = Game().from_dict(games[0])
+    if user.id != game.organizer_id and userFromDB['rol'] == 'user':
+        return 'Not your game', 400
+    else:
+        result = gamesDB.delete_one({'_id':ObjectId(game._id)})
+        if result.deleted_count == 1:
+            return 'Deleted',200
+        else:
+            return 'Error', 418
 
 def create_treasure(id, userToken, treasure):  # noqa: E501
     """uploads a treasure within a game
