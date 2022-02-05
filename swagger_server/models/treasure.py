@@ -7,6 +7,8 @@ from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
+from swagger_server.models.hint import Hint
+from swagger_server.models.found import Found
 
 
 class Treasure(Model):
@@ -15,20 +17,20 @@ class Treasure(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, location: List[float]=None, hint: object=None, found: List[object]=None):  # noqa: E501
+    def __init__(self, location: List[float]=None, hint: Hint=None, found: List[Found]=None):  # noqa: E501
         """Treasure - a model defined in Swagger
 
         :param location: The location of this Treasure.  # noqa: E501
         :type location: List[float]
         :param hint: The hint of this Treasure.  # noqa: E501
-        :type hint: object
+        :type hint: Hint
         :param found: The found of this Treasure.  # noqa: E501
-        :type found: List[object]
+        :type found: List[Found]
         """
         self.swagger_types = {
             'location': List[float],
-            'hint': object,
-            'found': List[object]
+            'hint': Hint,
+            'found': List[Found]
         }
 
         self.attribute_map = {
@@ -74,43 +76,43 @@ class Treasure(Model):
         self._location = location
 
     @property
-    def hint(self) -> object:
+    def hint(self) -> Hint:
         """Gets the hint of this Treasure.
 
 
         :return: The hint of this Treasure.
-        :rtype: object
+        :rtype: Hint
         """
         return self._hint
 
     @hint.setter
-    def hint(self, hint: object):
+    def hint(self, hint: Hint):
         """Sets the hint of this Treasure.
 
 
         :param hint: The hint of this Treasure.
-        :type hint: object
+        :type hint: Hint
         """
 
         self._hint = hint
 
     @property
-    def found(self) -> List[object]:
+    def found(self) -> List[Found]:
         """Gets the found of this Treasure.
 
 
         :return: The found of this Treasure.
-        :rtype: List[object]
+        :rtype: List[Found]
         """
         return self._found
 
     @found.setter
-    def found(self, found: List[object]):
+    def found(self, found: List[Found]):
         """Sets the found of this Treasure.
 
 
         :param found: The found of this Treasure.
-        :type found: List[object]
+        :type found: List[Found]
         """
 
         self._found = found

@@ -48,6 +48,11 @@ def delete_games(userToken, id=None):  # noqa: E501
 
     :rtype: None
     """
+
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+
     return 'do some magic!'
 
 def create_treasure(id, userToken, treasure):  # noqa: E501
@@ -104,7 +109,16 @@ def find_games_by_user(userToken):  # noqa: E501
 
     :rtype: List[Game]
     """
-    return 'do some magic!'
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+    games = list(gamesDB.find({'organizerId': user.id},{'treasures.location' : 0}))
+    gamesObjList = []
+    for gameDic in games:
+        gameDic['_id'] = str(gameDic['_id']) #swagger doesn't like ObjectId objects
+        gamesObjList.append( Game().from_dict(gameDic))
+        
+    return gamesObjList
 
 
 

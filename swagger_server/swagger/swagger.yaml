@@ -395,6 +395,20 @@ definitions:
         type: "number"
       proof:
         type: "string"
+  Hint:
+    type: "object"
+    properties:
+      imageUrl:
+        type: "string"
+      text:
+        type: "string"
+  Found:
+    type: "object"
+    properties:
+      userId:
+        type: "number"
+      proof:
+        type: "string"
   Treasure:
     type: "object"
     properties:
@@ -407,22 +421,11 @@ definitions:
           type: "number"
         maxItems: 2
       hint:
-        type: "object"
-        properties:
-          imageUrl:
-            type: "string"
-          text:
-            type: "string"
+        $ref: "#/definitions/Hint"
       found:
         type: "array"
         items:
-          type: "object"
-          properties:
-            userId:
-              type: "integer"
-              format: "int64"
-            proof:
-              type: "string"
+          $ref: "#/definitions/Found"
     xml:
       name: "treasure"
     example:

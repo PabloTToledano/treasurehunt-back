@@ -7,6 +7,8 @@ from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
 from swagger_server.models.area import Area
+from swagger_server.models.hint import Hint
+from swagger_server.models.found import Found
 from swagger_server.models.treasure import Treasure
 from swagger_server import util
 
@@ -81,11 +83,14 @@ class Game(Model):
 
         treasures = []
         for treasure in dikt['treasures']:
+            found = []
+            for foundDic in treasure['found']:
+                found.append(Found(foundDic['userId'],foundDic['proof']))
             if 'location' in treasure: 
-                treasures.append(Treasure(location= treasure['location'], hint: object=None, found: List[object]=None))
+                treasures.append(Treasure(location= treasure['location'], hint=Hint(treasure['hint']['imageUrl'],treasure['hint']['text']), found= found))
             else:
                 #not the creator of a game
-                treasures.append(Treasure(hint: object=None, found: List[object]=None))
+                treasures.append(Treasure(hint=Hint(treasure['hint']['imageUrl'],treasure['hint']['text']), found=found))
              
         game = Game(id=dikt['_id'],name=dikt['name'],winner=dikt['winner'],description=dikt['description'],organizer_id=dikt['organizerId'], area=area, treasures=treasures, active=dikt['active'] )
 
