@@ -148,7 +148,6 @@ def get_games(userToken, id=None):  # noqa: E501
         games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
         game = Game().from_dict(games[0])
         userFromDB = usersDB.find({'email': user.email})[0]
-        print(userFromDB['rol'])
         if user.id != game.organizer_id and userFromDB['rol'] == 'user':
             for treasure in game.treasures:
                 treasure.location = []
@@ -176,7 +175,33 @@ def reset_game_by_id(userToken, id):  # noqa: E501
 
     :rtype: Game
     """
-    return 'do some magic!'
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
+    userFromDB = usersDB.find({'email': user.email})[0]
+    user.rol = userFromDB['rol']
+    games = list(gamesDB.find({'_id': ObjectId(id)}))
+    if len(games) == 0:
+        return 'Game not found', 404    
+    games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+    game = Game().from_dict(games[0])
+
+    if user.id != game.organizer_id and userFromDB['rol'] == 'user':
+        return 'Not auth', 401
+    #we know the user is either the organizer or admin
+    games[0]['winner'] = ''
+    games[0]['active'] = True
+    games[0]['_id'] = ObjectId(games[0]['_id'])
+    for treasure in games[0]['treasures']:
+        treasure['found'] = []
+    
+    gamesDB.replace_one({'_id': ObjectId(id)},games[0])
+    
+    #return updated game
+    games = list(gamesDB.find({'_id': ObjectId(id)}))
+    games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+    game = Game().from_dict(games[0])
+    return game
 
 
 def update_game(userToken, body):  # noqa: E501
