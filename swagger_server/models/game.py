@@ -77,7 +77,19 @@ class Game(Model):
         :return: The Game of this Game.  # noqa: E501
         :rtype: Game
         """
-        return util.deserialize_model(dikt, cls)
+        area = Area(center_coordinates=dikt['area']['centerCoordinates'], dimensions= dikt['area']['dimensions'])
+
+        treasures = []
+        for treasure in dikt['treasures']:
+            if 'location' in treasure: 
+                treasures.append(Treasure(location= treasure['location'], hint: object=None, found: List[object]=None))
+            else:
+                #not the creator of a game
+                treasures.append(Treasure(hint: object=None, found: List[object]=None))
+             
+        game = Game(id=dikt['_id'],name=dikt['name'],winner=dikt['winner'],description=dikt['description'],organizer_id=dikt['organizerId'], area=area, treasures=treasures, active=dikt['active'] )
+
+        return game
 
     @property
     def id(self) -> str:
