@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from swagger_server.models.found_treasure import FoundTreasure  # noqa: E501
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server.test import BaseTestCase
@@ -42,6 +43,20 @@ class TestGameController(BaseTestCase):
             method='POST',
             data=json.dumps(treasure),
             content_type='application/json',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_delete_games(self):
+        """Test case for delete_games
+
+        Get games
+        """
+        query_string = [('userToken', 'userToken_example'),
+                        ('id', 'id_example')]
+        response = self.client.open(
+            '/v1/game',
+            method='DELETE',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -97,6 +112,23 @@ class TestGameController(BaseTestCase):
         response = self.client.open(
             '/v1/game/reset',
             method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_treasure_found(self):
+        """Test case for treasure_found
+
+        uploads a treasure within a game
+        """
+        treasure = FoundTreasure()
+        query_string = [('id', 789),
+                        ('userToken', 'userToken_example')]
+        response = self.client.open(
+            '/v1/game/treasures/found',
+            method='POST',
+            data=json.dumps(treasure),
+            content_type='application/json',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

@@ -103,6 +103,33 @@ paths:
         "405":
           description: "Validation exception"
       x-swagger-router-controller: "swagger_server.controllers.game_controller"
+    delete:
+      tags:
+      - "game"
+      summary: "Get games"
+      description: "Deletes a game"
+      operationId: "delete_games"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Game not found"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /game/findByActive:
     get:
       tags:
@@ -224,6 +251,38 @@ paths:
         "403":
           description: "Forbidden access"
       x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /game/treasures/found:
+    post:
+      tags:
+      - "game"
+      summary: "uploads a treasure within a game"
+      description: ""
+      operationId: "treasure_found"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "ID of game to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "userToken"
+        in: "query"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "treasure"
+        description: "The treasure to be uploaded"
+        required: true
+        schema:
+          $ref: "#/definitions/FoundTreasure"
+      responses:
+        "200":
+          description: "successful operation"
+        "403":
+          description: "Forbidden access"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
   /user:
     get:
       tags:
@@ -329,6 +388,13 @@ definitions:
       dimensions:
       - 1.46581298050294517310021547018550336360931396484375
       - 1.46581298050294517310021547018550336360931396484375
+  FoundTreasure:
+    type: "object"
+    properties:
+      index:
+        type: "number"
+      proof:
+        type: "string"
   Treasure:
     type: "object"
     properties:
