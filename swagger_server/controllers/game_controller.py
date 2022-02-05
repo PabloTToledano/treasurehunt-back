@@ -10,11 +10,13 @@ from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.token_controller import verifyToken,getUser
+from swagger_server.controllers.user_controller import get_user_by_token
 
 uri = os.environ['MONGODB_URI'] 
 client = pymongo.MongoClient(uri)
 db = client.get_default_database()
 gamesDB = db.games
+usersDB = db.users 
 
 
 def add_game(userToken, body):  # noqa: E501
@@ -139,14 +141,15 @@ def get_games(userToken, id=None):  # noqa: E501
     user = getUser(userToken)
     if user is None:
         return 'User not valid' ,404
-
     if id is not None:
         games = list(gamesDB.find({'_id': ObjectId(id)}))
         if len(games) == 0:
             return 'Game not found', 404
         games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
         game = Game().from_dict(games[0])
-        if user.id != game.organizer_id:
+        userFromDB = usersDB.find({'email': user.email})[0]
+        print(userFromDB['rol'])
+        if user.id != game.organizer_id and userFromDB['rol'] == 'user':
             for treasure in game.treasures:
                 treasure.location = []
         return game
