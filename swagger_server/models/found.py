@@ -29,7 +29,7 @@ class Found(Model):
         }
 
         self.attribute_map = {
-            'user_id': 'userId',
+            'user_id': 'user_id',
             'proof': 'proof'
         }
 

@@ -3,9 +3,11 @@ import connexion
 import pymongo
 import json
 import os
+import ast
 import six
 
 from bson import json_util, ObjectId
+from swagger_server.models.found import Found
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server.models.found_treasure import FoundTreasure  # noqa: E501
@@ -261,6 +263,52 @@ def treasure_found(id, userToken, treasure):  # noqa: E501
 
     :rtype: None
     """
+
+    user = getUser(userToken)
+    if user is None:
+        return 'User not valid' ,404
     if connexion.request.is_json:
-        treasure = FoundTreasure.from_dict(connexion.request.get_json())  # noqa: E501
+        games = list(gamesDB.find({'_id': ObjectId(id)}))
+        if len(games) == 0:
+            return 'Game not found', 404    
+        games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+        game = Game().from_dict(games[0])
+
+        #check if the user has found all treasures and make it the winner
+        game.treasures[treasure['index']].found.append(Found(user.id,treasure['proof']))
+        if is_winner(game,user.id):
+            game.winner = user.id
+            game.active = False
+            response = {'winner': user.username }
+            
+        else:
+            response = {}
+        gameDict = ast.literal_eval(str(game))
+
+        gameDict['_id'] = gameDict.pop('id')
+        gameDict['_id'] = ObjectId(gameDict['_id'])
+        gamesDB.replace_one({'_id': ObjectId(id)},gameDict)
+
+        #return updated game
+        # games = list(gamesDB.find({'_id': ObjectId(id)}))
+        # games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+        # game = Game().from_dict(games[0])
+        return response
+
+
+
+
     return 'do some magic!'
+
+def is_winner(game, userId):
+    nWins = 0
+    for treasure in game.treasures:
+        for found in treasure.found:
+            if found.user_id == userId:
+                nWins += 1
+    print(f'Lenght:{len(game.treasures)} nWins:{nWins}')
+
+    if nWins == len(game.treasures):
+        return True
+    else:
+        return False

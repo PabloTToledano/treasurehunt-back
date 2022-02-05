@@ -29,7 +29,7 @@ class Hint(Model):
         }
 
         self.attribute_map = {
-            'image_url': 'imageUrl',
+            'image_url': 'image_url',
             'text': 'text'
         }
 

@@ -264,8 +264,7 @@ paths:
         in: "query"
         description: "ID of game to update"
         required: true
-        type: "integer"
-        format: "int64"
+        type: "string"
       - name: "userToken"
         in: "query"
         required: true

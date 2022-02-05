@@ -55,7 +55,7 @@ class Game(Model):
             'name': 'name',
             'winner': 'winner',
             'description': 'description',
-            'organizer_id': 'organizerId',
+            'organizer_id': 'organizer_id',
             'area': 'area',
             'treasures': 'treasures',
             'active': 'active'
@@ -79,20 +79,20 @@ class Game(Model):
         :return: The Game of this Game.  # noqa: E501
         :rtype: Game
         """
-        area = Area(center_coordinates=dikt['area']['centerCoordinates'], dimensions= dikt['area']['dimensions'])
+        area = Area(center_coordinates=dikt['area']['center_coordinates'], dimensions= dikt['area']['dimensions'])
 
         treasures = []
         for treasure in dikt['treasures']:
             found = []
             for foundDic in treasure['found']:
-                found.append(Found(foundDic['userId'],foundDic['proof']))
+                found.append(Found(foundDic['user_id'],foundDic['proof']))
             if 'location' in treasure: 
-                treasures.append(Treasure(location= treasure['location'], hint=Hint(treasure['hint']['imageUrl'],treasure['hint']['text']), found= found))
+                treasures.append(Treasure(location= treasure['location'], hint=Hint(treasure['hint']['image_url'],treasure['hint']['text']), found= found))
             else:
                 #not the creator of a game
-                treasures.append(Treasure(hint=Hint(treasure['hint']['imageUrl'],treasure['hint']['text']), found=found))
+                treasures.append(Treasure(hint=Hint(treasure['hint']['image_url'],treasure['hint']['text']), found=found))
              
-        game = Game(id=dikt['_id'],name=dikt['name'],winner=dikt['winner'],description=dikt['description'],organizer_id=dikt['organizerId'], area=area, treasures=treasures, active=dikt['active'] )
+        game = Game(id=dikt['_id'],name=dikt['name'],winner=dikt['winner'],description=dikt['description'],organizer_id=dikt['organizer_id'], area=area, treasures=treasures, active=dikt['active'] )
 
         return game
 
