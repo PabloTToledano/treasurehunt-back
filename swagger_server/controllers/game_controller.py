@@ -112,7 +112,7 @@ def find_games_by_user(userToken):  # noqa: E501
     user = getUser(userToken)
     if user is None:
         return 'User not valid' ,404
-    games = list(gamesDB.find({'organizerId': user.id},{'treasures.location' : 0}))
+    games = list(gamesDB.find({'organizerId': user.id},))
     gamesObjList = []
     for gameDic in games:
         gameDic['_id'] = str(gameDic['_id']) #swagger doesn't like ObjectId objects
@@ -140,7 +140,26 @@ def get_games(userToken, id=None):  # noqa: E501
     if user is None:
         return 'User not valid' ,404
 
-    return json_util.dumps(list(gamesDB.find({},{'treasures.location' : 0})))
+    if id is not None:
+        games = list(gamesDB.find({'_id': ObjectId(id)}))
+        if len(games) == 0:
+            return 'Game not found', 404
+        games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+        game = Game().from_dict(games[0])
+        if user.id != game.organizer_id:
+            for treasure in game.treasures:
+                treasure.location = []
+        return game
+    else:
+        #return all games
+        games = list(gamesDB.find({},{'treasures.location' : 0}))
+        gamesObjList = []
+        for gameDic in games:
+            gameDic['_id'] = str(gameDic['_id']) #swagger doesn't like ObjectId objects
+            gamesObjList.append( Game().from_dict(gameDic))
+        return gamesObjList
+
+    return 
 
 def reset_game_by_id(userToken, id):  # noqa: E501
     """Reset game by ID
