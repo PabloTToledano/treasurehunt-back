@@ -47,7 +47,7 @@ def delete_user(userToken, userId):  # noqa: E501
     return 'do some magic!'
 
 
-def get_user_by_token(userToken):  # noqa: E501
+def get_user(userToken, id=None):  # noqa: E501
     """Get user by user name
 
      # noqa: E501
@@ -57,18 +57,25 @@ def get_user_by_token(userToken):  # noqa: E501
 
     :rtype: User
     """
-
-    user = getUser(userToken)
-    if user is None:
-        return 'User not valid' ,404
-        
-    # verify if user already exists
-    try:
-        userFromDB = usersDB.find({'email': user.email})[0]
-        user.rol = userFromDB['rol']
-    except IndexError:
-        # user doesn't exist
-        user.rol = 'user'
-        userjson = {"_id": user.id, "username": user.username, "email": user.email, "rol": user.rol}
-        usersDB.insert_one(userjson)
-    return user
+    if id is None:
+        user = getUser(userToken)
+        if user is None:
+            return 'User not valid' ,404
+            
+        # verify if user already exists
+        try:
+            userFromDB = usersDB.find({'email': user.email})[0]
+            user.rol = userFromDB['rol']
+        except IndexError:
+            # user doesn't exist
+            user.rol = 'user'
+            userjson = {"_id": user.id, "username": user.username, "email": user.email, "rol": user.rol}
+            usersDB.insert_one(userjson)
+        return user
+    else:
+        try:
+            userFromDB = usersDB.find({'_id': id})[0]
+            return userFromDB['username']
+        except IndexError:
+            # user doesn't exist
+            return 'Not found', 404

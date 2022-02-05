@@ -13,7 +13,7 @@ from swagger_server.models.treasure import Treasure  # noqa: E501
 from swagger_server.models.found_treasure import FoundTreasure  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.token_controller import verifyToken,getUser
-from swagger_server.controllers.user_controller import get_user_by_token
+from swagger_server.controllers.user_controller import get_user
 
 uri = os.environ['MONGODB_URI'] 
 client = pymongo.MongoClient(uri)

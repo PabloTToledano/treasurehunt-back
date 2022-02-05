@@ -287,13 +287,17 @@ paths:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "get_user_by_token"
+      operationId: "get_user"
       produces:
       - "application/json"
       parameters:
       - name: "userToken"
         in: "query"
         required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        required: false
         type: "string"
       responses:
         "200":
