@@ -20,7 +20,7 @@ paths:
       tags:
       - "game"
       summary: "Get games"
-      description: "Returns all games"
+      description: "Returns all games if no id is given"
       operationId: "get_games"
       produces:
       - "application/json"
@@ -28,6 +28,10 @@ paths:
       - name: "userToken"
         in: "query"
         required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        required: false
         type: "string"
       responses:
         "200":
@@ -130,13 +134,13 @@ paths:
         "403":
           description: "Forbidden access"
       x-swagger-router-controller: "swagger_server.controllers.game_controller"
-  /game/{_id}:
+  /game/findByUser:
     get:
       tags:
       - "game"
-      summary: "Find game by ID"
-      description: "Returns a single game"
-      operationId: "get_game_by_id"
+      summary: "Finds Games by user"
+      description: ""
+      operationId: "find_games_by_user"
       produces:
       - "application/json"
       parameters:
@@ -144,8 +148,34 @@ paths:
         in: "query"
         required: true
         type: "string"
-      - name: "_id"
-        in: "path"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Game"
+        "400":
+          description: "Invalid user value"
+        "403":
+          description: "Forbidden access"
+      x-swagger-router-controller: "swagger_server.controllers.game_controller"
+  /game/reset:
+    get:
+      tags:
+      - "game"
+      summary: "Reset game by ID"
+      description: "Returns a reset game"
+      operationId: "reset_game_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userToken"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "query"
         description: "ID of game to return"
         required: true
         type: "integer"
@@ -162,34 +192,7 @@ paths:
         "404":
           description: "Game not found"
       x-swagger-router-controller: "swagger_server.controllers.game_controller"
-    delete:
-      tags:
-      - "game"
-      summary: "Deletes a game"
-      description: ""
-      operationId: "delete_game"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "userToken"
-        in: "query"
-        required: true
-        type: "string"
-      - name: "_id"
-        in: "path"
-        description: "Game id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Game not found"
-      x-swagger-router-controller: "swagger_server.controllers.game_controller"
-  /game/{_id}/treasures:
+  /game/treasures:
     post:
       tags:
       - "game"
@@ -199,8 +202,8 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "_id"
-        in: "path"
+      - name: "id"
+        in: "query"
         description: "ID of game to update"
         required: true
         type: "integer"
@@ -397,6 +400,8 @@ definitions:
       _id:
         type: "string"
       name:
+        type: "string"
+      winner:
         type: "string"
       description:
         type: "string"

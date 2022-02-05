@@ -17,13 +17,15 @@ class Game(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, name: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
+    def __init__(self, id: str=None, name: str=None, winner: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
         """Game - a model defined in Swagger
 
         :param id: The id of this Game.  # noqa: E501
         :type id: str
         :param name: The name of this Game.  # noqa: E501
         :type name: str
+        :param winner: The winner of this Game.  # noqa: E501
+        :type winner: str
         :param description: The description of this Game.  # noqa: E501
         :type description: str
         :param organizer_id: The organizer_id of this Game.  # noqa: E501
@@ -38,6 +40,7 @@ class Game(Model):
         self.swagger_types = {
             'id': str,
             'name': str,
+            'winner': str,
             'description': str,
             'organizer_id': float,
             'area': Area,
@@ -48,6 +51,7 @@ class Game(Model):
         self.attribute_map = {
             'id': '_id',
             'name': 'name',
+            'winner': 'winner',
             'description': 'description',
             'organizer_id': 'organizerId',
             'area': 'area',
@@ -57,6 +61,7 @@ class Game(Model):
 
         self._id = id
         self._name = name
+        self._winner = winner
         self._description = description
         self._organizer_id = organizer_id
         self._area = area
@@ -115,6 +120,27 @@ class Game(Model):
         """
 
         self._name = name
+
+    @property
+    def winner(self) -> str:
+        """Gets the winner of this Game.
+
+
+        :return: The winner of this Game.
+        :rtype: str
+        """
+        return self._winner
+
+    @winner.setter
+    def winner(self, winner: str):
+        """Sets the winner of this Game.
+
+
+        :param winner: The winner of this Game.
+        :type winner: str
+        """
+
+        self._winner = winner
 
     @property
     def description(self) -> str:

@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 import connexion
 import pymongo
 import json
@@ -36,13 +37,13 @@ def add_game(userToken, body):  # noqa: E501
     return body
 
 
-def create_treasure(gameId, userToken, treasure):  # noqa: E501
+def create_treasure(id, userToken, treasure):  # noqa: E501
     """uploads a treasure within a game
 
      # noqa: E501
 
-    :param gameId: ID of game to update
-    :type gameId: int
+    :param id: ID of game to update
+    :type id: int
     :param userToken: 
     :type userToken: str
     :param treasure: The treasure to be uploaded
@@ -59,25 +60,6 @@ def create_treasure(gameId, userToken, treasure):  # noqa: E501
     return treasure
 
 
-def delete_game(userToken, gameId):  # noqa: E501
-    """Deletes a game
-
-     # noqa: E501
-
-    :param userToken: 
-    :type userToken: str
-    :param gameId: Game id to delete
-    :type gameId: int
-
-    :rtype: None
-    """
-    user = getUser(userToken)
-    if user is None:
-        return 'User not valid' ,404
-
-    return gameId
-
-
 def find_games_by_active(userToken, active):  # noqa: E501
     """Finds Games by active status
 
@@ -90,12 +72,26 @@ def find_games_by_active(userToken, active):  # noqa: E501
 
     :rtype: List[Game]
     """
+    if active is not Boolean:
+        return 'invalid active value', 400 
     user = getUser(userToken)
     if user is None:
         return 'User not valid' ,404
 
     return json_util.dumps(list(gamesDB.find({'active': active},{'treasures.location' : 0})))
 
+
+def find_games_by_user(userToken):  # noqa: E501
+    """Finds Games by user
+
+     # noqa: E501
+
+    :param userToken: 
+    :type userToken: str
+
+    :rtype: List[Game]
+    """
+    return 'do some magic!'
 
 def get_game_by_id(userToken, gameId):  # noqa: E501
     """Find game by ID
@@ -118,13 +114,15 @@ def get_game_by_id(userToken, gameId):  # noqa: E501
     return json_util.dumps(list(gamesDB.find({'_id': ObjectId(gameId)},{'treasures.location' : 0})))
 
 
-def get_games(userToken):  # noqa: E501
+def get_games(userToken, id=None):  # noqa: E501
     """Get games
 
-    Returns all games # noqa: E501
+    Returns all games if no id is given # noqa: E501
 
     :param userToken: 
     :type userToken: str
+    :param id: 
+    :type id: str
 
     :rtype: Game
     """
@@ -133,6 +131,20 @@ def get_games(userToken):  # noqa: E501
         return 'User not valid' ,404
 
     return json_util.dumps(list(gamesDB.find({},{'treasures.location' : 0})))
+
+def reset_game_by_id(userToken, id):  # noqa: E501
+    """Reset game by ID
+
+    Returns a reset game # noqa: E501
+
+    :param userToken: 
+    :type userToken: str
+    :param id: ID of game to return
+    :type id: int
+
+    :rtype: Game
+    """
+    return 'do some magic!'
 
 
 def update_game(userToken, body):  # noqa: E501

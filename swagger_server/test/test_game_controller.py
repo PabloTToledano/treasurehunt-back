@@ -35,25 +35,13 @@ class TestGameController(BaseTestCase):
         uploads a treasure within a game
         """
         treasure = Treasure()
-        query_string = [('userToken', 'userToken_example')]
+        query_string = [('id', 789),
+                        ('userToken', 'userToken_example')]
         response = self.client.open(
-            '/v1/game/{_id}/treasures'.format(_id=789),
+            '/v1/game/treasures',
             method='POST',
             data=json.dumps(treasure),
             content_type='application/json',
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_delete_game(self):
-        """Test case for delete_game
-
-        Deletes a game
-        """
-        query_string = [('userToken', 'userToken_example')]
-        response = self.client.open(
-            '/v1/game/{_id}'.format(_id=789),
-            method='DELETE',
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -72,14 +60,14 @@ class TestGameController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_game_by_id(self):
-        """Test case for get_game_by_id
+    def test_find_games_by_user(self):
+        """Test case for find_games_by_user
 
-        Find game by ID
+        Finds Games by user
         """
         query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
-            '/v1/game/{_id}'.format(_id=789),
+            '/v1/game/findByUser',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -90,9 +78,24 @@ class TestGameController(BaseTestCase):
 
         Get games
         """
-        query_string = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example'),
+                        ('id', 'id_example')]
         response = self.client.open(
             '/v1/game',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_reset_game_by_id(self):
+        """Test case for reset_game_by_id
+
+        Reset game by ID
+        """
+        query_string = [('userToken', 'userToken_example'),
+                        ('id', 789)]
+        response = self.client.open(
+            '/v1/game/reset',
             method='GET',
             query_string=query_string)
         self.assert200(response,
@@ -104,11 +107,13 @@ class TestGameController(BaseTestCase):
         Update an existing game
         """
         body = Game()
+        query_string = [('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game',
             method='PUT',
             data=json.dumps(body),
-            content_type='application/json')
+            content_type='application/json',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
