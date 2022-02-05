@@ -19,7 +19,7 @@ class Game(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, name: str=None, winner: str=None, description: str=None, organizer_id: float=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
+    def __init__(self, id: str=None, name: str=None, winner: str=None, description: str=None, organizer_id: str=None, area: Area=None, treasures: List[Treasure]=None, active: bool=None):  # noqa: E501
         """Game - a model defined in Swagger
 
         :param id: The id of this Game.  # noqa: E501

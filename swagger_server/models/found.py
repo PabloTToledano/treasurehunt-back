@@ -15,7 +15,7 @@ class Found(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, user_id: float=None, proof: str=None):  # noqa: E501
+    def __init__(self, user_id: str=None, proof: str=None):  # noqa: E501
         """Found - a model defined in Swagger
 
         :param user_id: The user_id of this Found.  # noqa: E501

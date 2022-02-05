@@ -405,7 +405,7 @@ definitions:
     type: "object"
     properties:
       userId:
-        type: "number"
+        type: "string"
       proof:
         type: "string"
   Treasure:
@@ -474,7 +474,7 @@ definitions:
       description:
         type: "string"
       organizerId:
-        type: "number"
+        type: "string"
       area:
         $ref: "#/definitions/Area"
       treasures:

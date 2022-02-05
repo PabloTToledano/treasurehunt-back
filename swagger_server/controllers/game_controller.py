@@ -8,6 +8,7 @@ import six
 from bson import json_util, ObjectId
 from swagger_server.models.game import Game  # noqa: E501
 from swagger_server.models.treasure import Treasure  # noqa: E501
+from swagger_server.models.found_treasure import FoundTreasure  # noqa: E501
 from swagger_server import util
 from swagger_server.controllers.token_controller import verifyToken,getUser
 from swagger_server.controllers.user_controller import get_user_by_token
@@ -35,8 +36,15 @@ def add_game(userToken, body):  # noqa: E501
     if user is None:
         return 'User not valid' ,404
     if connexion.request.is_json:
-        body = Game.from_dict(connexion.request.get_json())  # noqa: E501
-    return body
+        body = connexion.request.get_json()  # noqa: E501
+        gameid = gamesDB.insert_one(body)
+        games = list(gamesDB.find({'_id': ObjectId(gameid.inserted_id)}))
+        if len(games) == 0:
+            return 'Game could not be created', 404
+        games[0]['_id'] = str(games[0]['_id']) #swagger doesn't like ObjectId objects
+        game = Game().from_dict(games[0])
+        return game
+    return 'Invalid json file', 400
 
 def delete_games(userToken, id=None):  # noqa: E501
     """Get games
