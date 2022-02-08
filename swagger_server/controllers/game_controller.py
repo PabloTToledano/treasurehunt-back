@@ -276,13 +276,13 @@ def treasure_found(id, userToken, treasure):  # noqa: E501
 
         #check if the user has found all treasures and make it the winner
         game.treasures[treasure['index']].found.append(Found(user.id,treasure['proof']))
-        if is_winner(game,user.id):
+        if is_winner(game,user.id) and game.winner == "" and game.active:
             game.winner = user.id
             game.active = False
             response = {'winner': user.username }
             
         else:
-            response = {}
+            response = {'winner': game.winner }
         gameDict = ast.literal_eval(str(game))
 
         gameDict['_id'] = gameDict.pop('id')
