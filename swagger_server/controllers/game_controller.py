@@ -39,7 +39,7 @@ def add_game(userToken, body):  # noqa: E501
         return 'User not valid' ,404
     if connexion.request.is_json:
         body = connexion.request.get_json()  # noqa: E501
-        body['organizerId'] = user.id
+        body['organizer_id'] = user.id
         gameid = gamesDB.insert_one(body)
         games = list(gamesDB.find({'_id': ObjectId(gameid.inserted_id)}))
         if len(games) == 0:
