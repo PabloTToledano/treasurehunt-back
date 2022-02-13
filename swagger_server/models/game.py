@@ -7,6 +7,7 @@ from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
 from swagger_server.models.area import Area
+from swagger_server.models.coordinate import Coordinate
 from swagger_server.models.hint import Hint
 from swagger_server.models.found import Found
 from swagger_server.models.treasure import Treasure
@@ -79,7 +80,10 @@ class Game(Model):
         :return: The Game of this Game.  # noqa: E501
         :rtype: Game
         """
-        area = Area(center_coordinates=dikt['area']['center_coordinates'], dimensions= dikt['area']['dimensions'])
+        coorList = []
+        for coor in dikt['area']['coordinates']:
+            coorList.append( Coordinate(latitude= coor['latitude'],longitude= coor['longitude']) )
+        area = Area(coordinates=coorList)
 
         treasures = []
         for treasure in dikt['treasures']:

@@ -362,34 +362,24 @@ paths:
           description: "User not found"
       x-swagger-router-controller: "swagger_server.controllers.user_controller"
 definitions:
+  Coordinate:
+    type: "object"
+    properties:
+      latitude:
+        type: "number"
+      longitude:
+        type: "number"
   Area:
     type: "object"
     properties:
-      centerCoordinates:
+      coordinates:
         type: "array"
         xml:
-          name: "centerCoordinates"
+          name: "Coordinates"
           wrapped: true
         items:
-          type: "number"
-        maxItems: 2
-      dimensions:
-        type: "array"
-        xml:
-          name: "rectangleDimensions"
-          wrapped: true
-        items:
-          type: "number"
-        maxItems: 2
-    xml:
-      name: "area"
-    example:
-      centerCoordinates:
-      - 6.02745618307040320615897144307382404804229736328125
-      - 6.02745618307040320615897144307382404804229736328125
-      dimensions:
-      - 1.46581298050294517310021547018550336360931396484375
-      - 1.46581298050294517310021547018550336360931396484375
+          $ref: "#/definitions/Coordinate"
+        maxItems: 4
   FoundTreasure:
     type: "object"
     properties:

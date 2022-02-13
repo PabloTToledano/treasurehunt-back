@@ -44,12 +44,13 @@ class TestUserController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_user_by_token(self):
-        """Test case for get_user_by_token
+    def test_get_user(self):
+        """Test case for get_user
 
         Get user by user name
         """
-        query_string = [('userToken', 'userToken_example')]
+        query_string = [('userToken', 'userToken_example'),
+                        ('id', 'id_example')]
         response = self.client.open(
             '/v1/user',
             method='GET',

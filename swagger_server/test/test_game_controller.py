@@ -108,7 +108,7 @@ class TestGameController(BaseTestCase):
         Reset game by ID
         """
         query_string = [('userToken', 'userToken_example'),
-                        ('id', 789)]
+                        ('id', 'id_example')]
         response = self.client.open(
             '/v1/game/reset',
             method='GET',
@@ -122,7 +122,7 @@ class TestGameController(BaseTestCase):
         uploads a treasure within a game
         """
         treasure = FoundTreasure()
-        query_string = [('id', 789),
+        query_string = [('id', 'id_example'),
                         ('userToken', 'userToken_example')]
         response = self.client.open(
             '/v1/game/treasures/found',
